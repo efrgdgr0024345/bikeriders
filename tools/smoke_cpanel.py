@@ -56,6 +56,9 @@ def main():
                     index.unlink()
                     response = client.post("/loader.php", data={"action": "install", "key": key})
                     assert "Installed " in response.text, response.text
+                    expected_version = json.loads((ROOT / "deploy/cpanel/manifest.json").read_text())["version"]
+                    state = json.loads((private / "state.json").read_text())
+                    assert state["current"].startswith(expected_version + "-"), state
                     assert "collection starts" in client.get("/index.php").text
                     assert client.get("/index.php?asset=style.css").headers["content-type"].startswith("text/css")
                     assert client.get("/index.php?asset=../state.json").status_code == 404

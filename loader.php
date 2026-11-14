@@ -27,9 +27,14 @@ function brJson(string $path): array {
 function brFetch(string $path, int $limit = 1048576): string {
     // Fixed repository and HTTPS hosts; no user-supplied download URLs or redirects.
     $token = getenv('BIKERIDERS_GITHUB_TOKEN');
+    $ref = getenv('BIKERIDERS_RELEASE_REF') ?: 'main';
+    if (!preg_match('/^(?:main|[a-f0-9]{40})$/D', $ref)) {
+        throw new RuntimeException('BIKERIDERS_RELEASE_REF must be main or a full Git commit SHA.');
+    }
     $url = $token
-        ? 'https://api.github.com/repos/efrgdgr0024345/bikeriders/contents/' . $path . '?ref=main'
-        : 'https://raw.githubusercontent.com/efrgdgr0024345/bikeriders/main/' . $path;
+        ? 'https://api.github.com/repos/efrgdgr0024345/bikeriders/contents/' . $path . '?ref=' . $ref
+        : 'https://raw.githubusercontent.com/efrgdgr0024345/bikeriders/' . $ref . '/' . $path
+            . '?installer_check=' . bin2hex(random_bytes(8));
     $handle = curl_init($url);
     $body = '';
     $headers = ['Accept: application/vnd.github.raw+json', 'User-Agent: BikeKit-Installer/1'];

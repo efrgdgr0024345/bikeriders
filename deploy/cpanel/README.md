@@ -48,6 +48,10 @@ the private folder out of backups that are downloadable through a public URL.
 
 - Reopen `loader.php`, enter the key, and press **Check updates**.
 - Press **Install / update** to fetch the release published on GitHub `main`.
+- GitHub/CDN caches can delay a new branch release appearing. To install an exact
+  revision, optionally set `BIKERIDERS_RELEASE_REF` to a full 40-character Git commit
+  SHA. Unset it (or set `main`) to resume tracking normal updates. A pinned revision
+  remains pinned until you change that setting.
 - Repeating an installation is safe: data is not reset, and the same release is reused.
 - **Roll back** switches to the previous verified code release. Catalogue data is
   unchanged. This version performs no data migrations.
