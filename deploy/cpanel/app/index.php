@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 if (!isset($brPrivate)) { http_response_code(503); exit('Install with loader.php first.'); }
+// PHP's built-in server can route missing files through index.php with PATH_INFO.
+if (!empty($_SERVER['PATH_INFO'])) { http_response_code(404); exit; }
 header('X-Content-Type-Options: nosniff');
 header('Referrer-Policy: no-referrer');
 header("Content-Security-Policy: default-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'");

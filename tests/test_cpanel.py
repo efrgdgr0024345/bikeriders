@@ -45,3 +45,12 @@ def test_public_catalogue_approval_and_escaping(tmp_path):
     assert "&lt;script&gt;alert(1)&lt;/script&gt;" in result.stdout
     assert "PRIVATE_RECORD" not in result.stdout
     assert "UNREVIEWED_RECORD" not in result.stdout
+
+
+@pytest.mark.skipif(not PHP, reason="PHP CLI is required for routing checks")
+def test_public_missing_paths_are_rejected(tmp_path):
+    script = ('register_shutdown_function(function(){echo http_response_code();});'
+              '$brPrivate=$argv[1];$_SERVER["PATH_INFO"]="/state.json";require $argv[2];')
+    result = subprocess.run([PHP, "-r", script, str(tmp_path), str(ROOT / "deploy/cpanel/app/index.php")],
+                            check=True, capture_output=True, text=True)
+    assert result.stdout == "404"

@@ -8,7 +8,8 @@ image publication, setup histories, rarity and value estimates are future work.
 ## Requirements
 
 - PHP **8.1+** with cURL, JSON, SHA-256, and a working system CA trust store.
-- Outbound HTTPS to **api.github.com** (no SSH, Git, Composer or shell access needed).
+- Outbound HTTPS to **raw.githubusercontent.com** (or **api.github.com** when a
+  private-repository token is configured). No SSH, Git, Composer or shell access needed.
 - A writable website folder and a writable private directory outside the web root.
 - HTTPS on your domain. No MySQL database or paid server is needed for this initial
   catalogue; its records are stored in a private JSON file.
@@ -105,3 +106,8 @@ Tests: `python -m pytest`. PHP lifecycle tests run if `php` is on PATH, or if
 update, rollback, data preservation, corrupt downloads, path traversal, modified
 release detection, and catalogue approval/escaping. Check actual hosting permissions,
 PHP extensions and outbound access on cPanel; local tests cannot establish those.
+
+For an opt-in browser-style test against the published GitHub release, run
+`python tools/smoke_cpanel.py`. It starts an isolated local PHP server and exercises
+the standalone loader, download, installation, existing-site protection, repeated
+installation, data preservation and public routes. It never connects to your cPanel.

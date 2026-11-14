@@ -25,12 +25,14 @@ function brJson(string $path): array {
     return $data;
 }
 function brFetch(string $path, int $limit = 1048576): string {
-    // Fixed repository and HTTPS API host; no user-supplied download URLs or redirects.
-    $url = 'https://api.github.com/repos/efrgdgr0024345/bikeriders/contents/' . $path . '?ref=main';
+    // Fixed repository and HTTPS hosts; no user-supplied download URLs or redirects.
+    $token = getenv('BIKERIDERS_GITHUB_TOKEN');
+    $url = $token
+        ? 'https://api.github.com/repos/efrgdgr0024345/bikeriders/contents/' . $path . '?ref=main'
+        : 'https://raw.githubusercontent.com/efrgdgr0024345/bikeriders/main/' . $path;
     $handle = curl_init($url);
     $body = '';
     $headers = ['Accept: application/vnd.github.raw+json', 'User-Agent: BikeKit-Installer/1'];
-    $token = getenv('BIKERIDERS_GITHUB_TOKEN');
     if ($token) { $headers[] = 'Authorization: Bearer ' . $token; }
     curl_setopt_array($handle, [
         CURLOPT_HTTPHEADER => $headers, CURLOPT_FOLLOWLOCATION => false,
@@ -139,7 +141,6 @@ header('Referrer-Policy: no-referrer');
 header("Content-Security-Policy: default-src 'none'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'");
 $key = getenv('BIKERIDERS_SETUP_KEY') ?: $setupKey;
 $message = '';
-$authenticated = false;
 $requirements = [
     'PHP 8.1 or later' => PHP_VERSION_ID >= 80100,
     'cURL extension' => extension_loaded('curl'),
@@ -158,7 +159,6 @@ try {
             http_response_code(403);
             throw new RuntimeException('Incorrect installation key.');
         }
-        $authenticated = true;
         if (!is_dir($private) && !mkdir($private, 0700, true)) { throw new RuntimeException('Cannot create private storage. Set BIKERIDERS_PRIVATE_DIR to a writable path outside your web roots.'); }
         $private = (string)realpath($private);
         $root = rtrim((string)$documentRoot, DIRECTORY_SEPARATOR);
