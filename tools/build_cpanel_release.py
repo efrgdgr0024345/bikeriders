@@ -12,6 +12,7 @@ def build(version="0.1.0"):
         "schema": 1,
         "version": version,
         "files": {name: hashlib.sha256((ROOT / "deploy/cpanel/app" / name).read_bytes()).hexdigest() for name in FILES},
+        "loader_sha256": hashlib.sha256((ROOT / "loader.php").read_bytes()).hexdigest(),
     }
 
 

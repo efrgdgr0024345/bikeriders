@@ -17,6 +17,7 @@ def test_release_manifest_matches_files():
     assert set(manifest["files"]) == {"index.php", "style.css", "app.js"}
     for name, checksum in manifest["files"].items():
         assert hashlib.sha256((ROOT / "deploy/cpanel/app" / name).read_bytes()).hexdigest() == checksum
+    assert hashlib.sha256((ROOT / "loader.php").read_bytes()).hexdigest() == manifest["loader_sha256"]
 
 
 @pytest.mark.skipif(not PHP, reason="PHP CLI is required for installer integration tests")

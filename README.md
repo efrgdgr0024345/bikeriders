@@ -7,10 +7,11 @@ No paid Linux server, cloud account, GPU, or API subscription is required.
 ## GitHub + cPanel
 
 `loader.php` is a standalone installer/updater for the PHP public-site foundation.
-Upload that one file to an empty cPanel website folder, configure a private installation
-key in your uploaded copy, and run it in your browser. It checks PHP hosting support,
-downloads verified application files from this GitHub repository, and supports updates
-and code rollback while preserving the catalogue.
+It follows the maintenance workflow used by `efrgdgr0024345/map`: upload one file,
+open it, read the generated `var/setup-token.php` through cPanel File Manager, and
+unlock setup. No source editing is needed. It checks hosting support, shows progress,
+downloads verified app files, and updates itself with a verified backup. Normal updates
+reuse unchanged app files and preserve the catalogue and maintenance credentials.
 
 Full instructions: [cPanel install and updates](deploy/cpanel/README.md).
 Python video processing stays on your laptop. The cPanel site starts empty; automatic

@@ -1,9 +1,10 @@
 {
   "schema": 1,
-  "version": "0.1.1",
+  "version": "0.2.0",
   "files": {
     "index.php": "18a3289d360d3e6e7fbd43b0808cd3216b8443958cda4487d25864cb69743ea7",
     "style.css": "3f0a48ed42b31563ee0e8c690dee87f7d4c8fc2724796913e8258f9fa3f5421d",
     "app.js": "75a40f1d80a15fa62c315b17e91b682a7705383c7f083f1a8cb5c6c398a2b4c9"
-  }
+  },
+  "loader_sha256": "032cc5a0974918ecd25c169664afec4f4276d8330c1987f6d2e8b6acd059aae7"
 }
